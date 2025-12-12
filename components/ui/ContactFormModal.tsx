@@ -34,19 +34,26 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
     setErrorMessage('');
 
     try {
-      const webhookUrl = 'https://hook.eu2.make.com/ubjoe44to3qqglo07w459fp65nvzjeth'     
-        /*'https://hook.eu2.make.com/ubjoe44to3qqglo07w459fp65nvzjeth';*/
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-      const response = await fetch(webhookUrl, {
+      if (!supabaseUrl || !anonKey) {
+        throw new Error('Supabase configuration is missing');
+      }
+
+      const functionUrl = `${supabaseUrl}/functions/v1/contact-webhook`;
+
+      const response = await fetch(functionUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${anonKey}`,
         },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error(`Webhook request failed with status ${response.status}`);
+        throw new Error(`Form submission failed with status ${response.status}`);
       }
 
       setSubmitStatus('success');
