@@ -34,7 +34,19 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
     setErrorMessage('');
 
     try {
-      console.log('Form submitted:', formData);
+      const webhookUrl = 'https://hook.eu2.make.com/ubjoe44to3qqglo07w459fp65nvzjeth';
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Webhook request failed with status ${response.status}`);
+      }
 
       setSubmitStatus('success');
       setFormData({
