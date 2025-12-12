@@ -34,7 +34,7 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
     setErrorMessage('');
 
     try {
-      const webhookUrl = 'https://webhook-test.com/6dd88d1eda0866ac4d0757bc51384d57'      
+      const webhookUrl = 'https://hook.eu2.make.com/84gnybf16tc8gxxjqbtyu6oben5al31h'      
         /*'https://hook.eu2.make.com/ubjoe44to3qqglo07w459fp65nvzjeth';*/
 
       const response = await fetch(webhookUrl, {
